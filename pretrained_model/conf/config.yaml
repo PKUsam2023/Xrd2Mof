@@ -1,0 +1,75 @@
+debug: false
+
+# Base directory for project
+raw_path: ""
+
+# -----------------------------------------------------------------------------
+# Data storage
+# -----------------------------------------------------------------------------
+# Model training data
+data_path: "${raw_path}/Xrd2Mof-master/pretrained_model/train_data"
+
+# -----------------------------------------------------------------------------
+# Model checkpoints
+# -----------------------------------------------------------------------------
+# Directory where training checkpoints are backed up
+save_model_path: "${raw_path}/Xrd2Mof-master/pretrained_model/backupmodel"
+
+# -----------------------------------------------------------------------------
+# Training logs
+# -----------------------------------------------------------------------------
+# Path to record training progress messages
+train_record_path: "${raw_path}/Xrd2Mof-master/pretrained_model/test_file/train_process/process_message.txt"
+# Directory (or file prefix) where accuracy logs are written
+accuracy_file_path: "${raw_path}/Xrd2Mof-master/pretrained_model/test_file/test_process/accuracy.txt"
+
+# -----------------------------------------------------------------------------
+# Feature extract data
+# -----------------------------------------------------------------------------
+feature_extract_data: "${raw_path}/Xrd2Mof-master/data/original_data/dataset.pt"
+output_feature_embedding_data: "${raw_path}/Xrd2Mof-master/data/feature_extract_data/dataset_emb.pt"
+
+# -----------------------------------------------------------------------------
+# Visualization outputs
+# -----------------------------------------------------------------------------
+# Directory for heat map images
+heat_map_path: "${raw_path}/Xrd2Mof-master/pretrained_model/test_file/test_process/map"
+# Directory for similarity data (plots, raw numbers, etc.)
+similarity_data_path: "${raw_path}/Xrd2Mof-master/pretrained_model/test_file/test_process"
+
+
+# -----------------------------------------------------------------------------
+# Model Hyperparameter
+# -----------------------------------------------------------------------------
+load_pre_train: False
+
+batch_size: 32
+num_workers: 16
+head_lr: 1e-4
+lattice_encoder_lr: 1e-4
+atom_encoder_lr: 1e-4
+xrd_encoder_lr: 1e-4
+metal_encoder_lr: 1e-4
+linker_encoder_lr: 1e-4
+weight_decay: 1e-4
+patience: 3
+factor: 0.5
+epochs: 500
+early_stopping: 100
+
+device: "cuda" 
+
+cif_features: 288       # lattice (32) + atom (256) = 288
+combined_features: 1152   # xrd (1024) + metal (64) + linker (64) = 1152
+max_length: 200
+
+pretrained: true
+trainable: true
+temperature: 1.0
+
+# for projection head; used for both image and text encoders
+num_projection_layers: 1
+projection_dim: 256
+dropout: 0
+
+top_n: 1

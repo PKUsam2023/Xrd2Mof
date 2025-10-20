@@ -1,0 +1,8 @@
+Get Scaler
+Evaluate the diffusion model.
+batch 0 / 1, sample 0 / 5
+batch 0 / 1, sample 1 / 5
+batch 0 / 1, sample 2 / 5
+batch 0 / 1, sample 3 / 5
+batch 0 / 1, sample 4 / 5
+71.80698347091675

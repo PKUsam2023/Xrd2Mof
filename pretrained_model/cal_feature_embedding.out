@@ -1,0 +1,8 @@
+Choose the name of .ckpt file : /share2/fengbin/A/Xrd2Mof-master/pretrained_model/backupmodel/best_model_epoch=172.ckpt
+Testing: 0it [00:00, ?it/s]Testing: 100%|██████████| 1/1 [00:00<00:00,  1.58it/s]--------------------------------------------------------------------------------
+DATALOADER:0 TEST RESULTS
+{}
+--------------------------------------------------------------------------------
+Testing: 100%|██████████| 1/1 [00:00<00:00,  1.45it/s]
+Test completed in 1.41 seconds
+

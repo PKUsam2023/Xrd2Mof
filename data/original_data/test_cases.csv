@@ -1,0 +1,5 @@
+"Materials_name","Metal_nodes","Organic_linkers","Linker_proportion","Metal_valence","Linker_valence"
+BIFWIY, Mn, ['C(c1ccc(CP(=O)(O)O)cc1)P(=O)(O)O'], , 2, 2
+DAKZAS, Cu, ['c1cc(ccn1)c1cnccc1'], , 2, 2
+DUDZOR, Cu, ['C1(=[C][C]=N[C]=[C]1)C1=[C][C]=N[C]=[C]1'], , 2, 2
+VAWXAS01, Co, ['c1(c(cc(c(c1)C(=O)[O])C(=O)[O])C(=O)[O])C(=O)[O]'], , 2, 4

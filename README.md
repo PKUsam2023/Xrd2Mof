@@ -1,4 +1,4 @@
-# SD-MOFNet
+# Xrd2Mof
 
 <div align="center">
 
@@ -30,19 +30,19 @@
 
 ## Introduction
 
-**SD-MOFNet** present a crystal structure generation framework based on the Stable Diffusion architecture (SD-MOFNet) designed to enable intelligent, high-throughput interpretation of powder X-ray diffraction (PXRD) patterns and subsequent reconstruction of atomic-level crystal structures for metal–organic frameworks (MOFs). SD-MOFNet leverages pretrained models to extract salient features from PXRD spectra alongside essential prior information, facilitating the generation of structural building-block sites within the unit cell. Using experimental MOF structures from the Cambridge Structural Database (CSD) as the training dataset, and experimentally obtained PXRD patterns as test cases, we demonstrate that SD-MOFNet effectively captures spectral features, integrates physicochemical information from metal nodes and organic linkers, and subsequently generates the critical structural sites necessary for assembling complete atomic structures. By employing a coarse-grained(CG) strategy, SD-MOFNet effectively overcomes the limitations traditionally imposed by atom count in crystal structure prediction (CSP) tasks, thus enabling its broad applicability across diverse MOF domains. The proposed framework offers a novel technological route toward automated structural determination in high-throughput MOF experiments, significantly advancing the application of machine learning methods within analytical and structural chemistry.
+**Xrd2Mof** present a crystal structure generation framework based on the Stable Diffusion architecture designed to enable intelligent, high-throughput interpretation of powder X-ray diffraction (PXRD) patterns and subsequent reconstruction of atomic-level crystal structures for metal–organic frameworks (MOFs). It leverages pretrained models to extract salient features from PXRD spectra alongside essential prior information, facilitating the generation of structural building-block sites within the unit cell. Using experimental MOF structures from the Cambridge Structural Database (CSD) as the training dataset, and experimentally obtained PXRD patterns as test cases, we demonstrate that Xrd2Mof effectively captures spectral features, integrates physicochemical information from metal nodes and organic linkers, and subsequently generates the critical structural sites necessary for assembling complete atomic structures. By employing a coarse-grained(CG) strategy, Xrd2Mof effectively overcomes the limitations traditionally imposed by atom count in crystal structure prediction (CSP) tasks, thus enabling its broad applicability across diverse MOF domains. The proposed framework offers a novel technological route toward automated structural determination in high-throughput MOF experiments, significantly advancing the application of machine learning methods within analytical and structural chemistry.
 > **Keywords:** metal–organic frameworks (MOFs), crystal structure prediction (CSP), powder X-ray diffraction (PXRD), interpretable ML.
 
 ---
 
 ## Model Architecture
 
-A schematic of the overall SD-MOFNet pipeline:
+A schematic of the overall Xrd2Mof pipeline:
 
 ![Model Overview](fig/Overview.png)
 ![Demo](fig/Demo.png)
 
-Further details are provided in the accompanying [paper](https://github.com/PKUsam2023/SD-MOFNet) (We will update the link to the paper after publication.).
+Further details are provided in the accompanying [paper](https://github.com/PKUsam2023/Xrd2Mof) (We will update the link to the paper after publication.).
 
 ---
 

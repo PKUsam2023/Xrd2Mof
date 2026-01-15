@@ -1,0 +1,150 @@
+data:
+  root_path: ${oc.env:PROJECT_ROOT}/../data/feature_extract_data
+  data_name: dataset_emb_processed_diff.pt
+  prop: scaled_lattice
+  num_targets: 6
+  niggli: true
+  primitive: false
+  graph_method: crystalnn
+  lattice_scale_method: scale_length
+  readout: mean
+  max_atoms: 50
+  otf_graph: false
+  eval_model_name: mp20
+  tolerance: 0.1
+  use_space_group: false
+  use_pos_index: false
+  train_max_epochs: 4000
+  early_stopping_patience: 100000
+  teacher_forcing_max_epoch: 1000
+  datamodule:
+    _target_: diffcsp.pl_data.datamodule.CrystDataModule
+    datasets:
+      train:
+        _target_: diffcsp.pl_data.dataset.CrystDataset
+        name: Formation energy train
+        save_path: ${data.root_path}/train.pt
+        prop: ${data.prop}
+        niggli: ${data.niggli}
+        primitive: ${data.primitive}
+        graph_method: ${data.graph_method}
+        tolerance: ${data.tolerance}
+        use_space_group: ${data.use_space_group}
+        use_pos_index: ${data.use_pos_index}
+        lattice_scale_method: ${data.lattice_scale_method}
+      val:
+      - _target_: diffcsp.pl_data.dataset.CrystDataset
+        name: Formation energy val
+        save_path: ${data.root_path}/val.pt
+        prop: ${data.prop}
+        graph_method: ${data.graph_method}
+        tolerance: ${data.tolerance}
+        use_space_group: ${data.use_space_group}
+        use_pos_index: ${data.use_pos_index}
+        lattice_scale_method: ${data.lattice_scale_method}
+      test:
+      - _target_: diffcsp.pl_data.dataset.TestMOFCrystDataset
+        name: Formation energy test
+        save_path: ${data.root_path}/${data.data_name}
+        prop: ${data.prop}
+        lattice_scale_method: ${data.lattice_scale_method}
+    num_workers:
+      train: 16
+      val: 16
+      test: 16
+    batch_size:
+      train: 256
+      val: 256
+      test: 256
+logging:
+  val_check_interval: 5
+  progress_bar_refresh_rate: 1
+  wandb:
+    name: ${expname}
+    project: diffcsp
+    entity: null
+    log_model: true
+    mode: offline
+    group: ${expname}
+  wandb_watch:
+    log: all
+    log_freq: 500
+  lr_monitor:
+    logging_interval: step
+    log_momentum: false
+model:
+  decoder:
+    _target_: diffcsp.pl_modules.cspnet.CSPNet
+    hidden_dim: 512
+    feature_dim: 256
+    latent_dim: 0
+    max_atoms: 2
+    num_layers: 3
+    act_fn: silu
+    dis_emb: sin
+    num_freqs: 128
+    edge_style: fc
+    max_neighbors: ${model.max_neighbors}
+    cutoff: ${model.radius}
+    ln: true
+    ip: true
+  beta_scheduler:
+    _target_: diffcsp.pl_modules.diff_utils.BetaScheduler
+    timesteps: ${model.timesteps}
+    scheduler_mode: cosine
+  sigma_scheduler:
+    _target_: diffcsp.pl_modules.diff_utils.SigmaScheduler
+    timesteps: ${model.timesteps}
+    sigma_begin: 0.005
+    sigma_end: 0.5
+  _target_: diffcsp.pl_modules.diffusion.CSPDiffusion
+  time_dim: 256
+  latent_dim: 0
+  cost_coord: 1.0
+  cost_lattice: 0.1
+  max_neighbors: 20
+  radius: 7.0
+  timesteps: 1000
+optim:
+  optimizer:
+    _target_: torch.optim.Adam
+    lr: 0.001
+    betas:
+    - 0.9
+    - 0.999
+    eps: 1.0e-08
+    weight_decay: 0
+  use_lr_scheduler: true
+  lr_scheduler:
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    factor: 0.6
+    patience: 30
+    min_lr: 0.0001
+train:
+  deterministic: true
+  random_seed: 42
+  pl_trainer:
+    fast_dev_run: false
+    gpus: 4
+    accelerator: ddp
+    precision: 32
+    max_epochs: ${data.train_max_epochs}
+    accumulate_grad_batches: 1
+    num_sanity_val_steps: 2
+    gradient_clip_val: 0.5
+    gradient_clip_algorithm: value
+    profiler: simple
+  monitor_metric: val_loss
+  monitor_metric_mode: min
+  early_stopping:
+    patience: ${data.early_stopping_patience}
+    verbose: false
+  model_checkpoints:
+    save_top_k: 1
+    verbose: false
+    save_last: false
+expname: CSP_CGmof50
+core:
+  version: 0.0.1
+  tags:
+  - ${now:%Y-%m-%d}

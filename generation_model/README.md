@@ -58,11 +58,11 @@ python ./Xrd2Mof-master/generation_model/scripts/evaluate.py \
   > ./Xrd2Mof-master/generation_model/test.txt
 ```
 
-* `--model_path` points to the trained model directory or checkpoint.
+* `--model_path` points to the trained model directory or checkpoint. **Must be an absolute path**
 * `--num_evals` is the number of samples per input.
 * `--label` is an optional tag used in logs/filenames.
-* `--out_path` is the output location for generated data.
-* `PYTHONPATH` ensures the package modules in `generation_model` are discoverable.
+* `--out_path` is the output location for generated data. **Must be an absolute path**
+* `PYTHONPATH` ensures the package modules in `generation_model` are discoverable. must point to your own `generation_model` directory so that the `diffcsp` package can be imported.
 
 ### PBS cluster (optional)
 

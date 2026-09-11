@@ -36,11 +36,15 @@ pip install -e .
 
 Reorganize generated samples using the single-linker pipeline:
 
+> [!NOTE]
+> Run this from the directory that **contains** `Xrd2Mof-master` (not from inside
+> `assemble/`). All paths below are relative to that parent directory.
+
 ```bash
 python -u ./Xrd2Mof-master/assemble/Single-MOF_reorganize.py \
-  --input_pt  ./Xrd2Mof-master/data/generation_data/gen_csp_test_num_eval_5.pt \
+  --input_pt  ./Xrd2Mof-master/data/generation_data/gen_csp_test_num_eval_1.pt \
   --bbs_pt    ./Xrd2Mof-master/data/feature_extract_data/dataset_emb_processed_diff.pt \
-  --output_pt ./Xrd2Mof-master/data/generation_data/gen_csp_test_num_eval_5_processed.pt
+  --output_pt ./Xrd2Mof-master/data/generation_data/gen_csp_test_num_eval_1_processed.pt
 ```
 
 ### Dual-linker workflow
@@ -73,7 +77,7 @@ Build final CIF structures from the processed dataset:
 
 ```bash
 python -u ./Xrd2Mof-master/assemble/mofdiff/scripts/assemble.py \
-  --input ./Xrd2Mof-master/data/generation_data/gen_csp_test_num_eval_5_processed.pt
+  --input ./Xrd2Mof-master/data/generation_data/gen_csp_test_num_eval_1_processed.pt
 ```
 
 ### PBS cluster (optional)

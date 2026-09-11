@@ -17,12 +17,17 @@ Use the previously generated `dataset.pt` to compute feature embeddings.
      ```yaml
      raw_path: /absolute/path/to/your/project
      ```
+     > [!NOTE]
+     > Use an **absolute path** pointing to the directory that *contains*
+     > `Xrd2Mof-master`, not a path inside it. Hydra changes the working
+     > directory at runtime, so relative paths are resolved against the Hydra
+     > output folder and will not be found.
 
 2. **Run locally**
 
    ```bash
-   python -u ./Xrd2Mof-master/pretrained_model/clip_cal_feature_embedding.py \
-     > clip_cal_feature_embedding.out
+   python -u ./Xrd2Mof-master/pretrained_model/cal_feature_embedding.py \
+     > cal_feature_embedding.out
    ```
 
 3. **Run on a PBS cluster (optional)**

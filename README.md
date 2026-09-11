@@ -17,6 +17,7 @@
 * [Model Architecture](#model-architecture)
 * [Getting Started](#getting-started)
 
+  * [Obtaining the Code](#obtaining-the-code)
   * [Prerequisites](#prerequisites)
   * [Data Processing](#data-processing)
   * [Feature Extraction](#feature-extraction)
@@ -42,11 +43,38 @@ A schematic of the overall Xrd2Mof pipeline:
 ![Model Overview](fig/Overview.png)
 ![Demo](fig/Demo.png)
 
-Further details are provided in the accompanying [paper](https://github.com/PKUsam2023/Xrd2Mof) (We will update the link to the paper after publication.).
+Further details are provided in the accompanying [paper](https://doi.org/10.1021/jacs.5c16416).
 
 ---
 
 ## Getting Started
+
+### Obtaining the Code
+
+There are two ways to obtain this repository, and they produce **different directory names**. This matters because every command in this README uses paths relative to
+that directory.
+
+```bash
+# Option 1 — clone (recommended)
+git clone https://github.com/PKUsam2023/Xrd2Mof.git
+# creates:  Xrd2Mof/
+
+# Option 2 — download the ZIP from the GitHub web interface
+# extracting it creates:  Xrd2Mof-master/
+```
+
+GitHub appends the branch name to ZIP downloads, which is where the `-master` suffix comes from. A ZIP download also has no `.git/` directory, so you cannot commit, pull updates, or contribute changes back — use `git clone` unless you have a reason not to.
+
+> [!NOTE]
+> The commands throughout this README assume the ZIP layout (`Xrd2Mof-master/`).
+> If you cloned the repository instead, either rename the directory:
+>
+> ```bash
+> mv Xrd2Mof Xrd2Mof-master
+> ```
+>
+> or replace `Xrd2Mof-master` with `Xrd2Mof` in the commands below. The same applies > to `raw_path` in `pretrained_model/conf/config.yaml` and to the `PYTHONPATH` value
+> used during generation.
 
 ### Prerequisites
 
@@ -57,12 +85,47 @@ torch>=1.13.1
 numpy>=1.24.4
 scikit-learn>=1.3.2
 matplotlib>=3.7.5
+pymatgen==2023.8.10
 ```
 
 Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+conda env create -f environment.yml
+conda activate Xrd2Mof
+```
+> [!IMPORTANT]
+> Two dependency groups must **not** be installed with a plain `pip install`.
+> Handle them separately as described below, otherwise the environment will break.
+
+**1. PyTorch Geometric extensions (`torch-scatter`, `torch-sparse`, `torch-geometric`)**
+
+These are distributed as pre-built wheels from the PyG index. Installing them from PyPI triggers a local C++/CUDA compilation that is slow and frequently fails. Always pass the matching wheel index:
+
+```bash
+# check your torch build first
+python -c "import torch; print(torch.__version__, torch.version.cuda)"
+
+# then install with the matching index (example: torch 1.13.1, CPU-only)
+pip install torch-scatter torch-sparse torch-geometric \
+  -f https://data.pyg.org/whl/torch-1.13.1+cpu.html
+```
+
+Replace `1.13.1+cpu` with your own build string (e.g. `1.13.1+cu117` for CUDA 11.7). The suffix must match exactly, or pip silently falls back to source compilation.
+
+**2. `smact` and `pyxtal`**
+
+Current releases of both packages require pymatgen 2024 or newer, and installing them normally will upgrade the pinned `pymatgen==2023.8.10` that the DiffCSP-based generation model depends on. Install them without dependency resolution:
+
+```bash
+pip install "smact==2.5.5" --no-deps
+pip install "pyxtal==0.6.1" --no-deps
+```
+
+Then confirm that pymatgen was left untouched:
+
+```bash
+pip list | grep -E "pymatgen|smact|pyxtal"
 ```
 
 We recommend the Anaconda distribution (Windows/macOS/Linux). Installation has been validated using the standard instructions from each provider.
@@ -118,4 +181,15 @@ If you use this repository or the pretrained models in your research, please cit
 
 **Bin Feng**, **Bingxu Wang**, L Lv, Mingzheng Zhang, Feng Pan* and Shunning Li*. Interpreting X-Ray Diffraction Patterns of Metal-Organic Frameworks via Generative Artificial Intelligence. 
 
-> A BibTeX entry will be added here when a preprint/DOI becomes available.
+```bibtex
+@article{feng2026xrd2mof,
+  title   = {Interpreting {X}-ray Diffraction Patterns of {M}etal-{O}rganic Frameworks via Generative Artificial Intelligence},
+  author  = {Feng, Bin and Wang, Bingxu and Lv, Linpeng and Zhang, Mingzheng and Chen, Zhefeng and Pan, Feng and Li, Shunning},
+  journal = {Journal of the American Chemical Society},
+  volume  = {148},
+  number  = {1},
+  pages   = {869--878},
+  year    = {2026},
+  doi     = {10.1021/jacs.5c16416}
+}
+```
